@@ -12,7 +12,7 @@ Geen account, geen API-sleutel, geen abonnement.
 ## Wat doet het?
 
 - **Live CPU- en RAM-meter**, elke 2 seconden bijgewerkt.
-- **Windows-logboek**: toont de laatste fouten uit het System Event Log (met bron en EventID).
+- **Windows-logboek**: toont recente fouten en waarschuwingen uit het System Event Log (met bron en EventID).
 - **Analyse met lokale AI** ([Ollama](https://ollama.com)): één klik op *START QUANTUM DIAGNOSTISCHE ANALYSE*
   levert een rapport met *Systeem Status*, *Diagnose* en *Stappenplan*. Alles draait op je eigen pc.
 - **Ollama automatisch installeren**: staat Ollama nog niet op de pc, dan vraagt het programma
@@ -59,7 +59,7 @@ Op een laptop van 1366×768 past het venster zich aan en blijft de knop in beeld
 
 ## Installeren en starten
 
-Vereist **Windows** en **Python 3.10+**.
+Vereist **Windows** en **Python 3**.
 
 ```
 pip install -r requirements.txt
@@ -93,7 +93,7 @@ rechtstreeks van `ollama.com` gehaald.
 
 ## Hoe werkt het intern?
 
-1. `psutil` leest CPU en RAM; `win32evtlog` leest de laatste 5 fouten (type *Error* en *Critical*) uit het System-log.
+1. `psutil` leest CPU en RAM; `win32evtlog` leest tot 5 recente meldingen van het type *Error* of *Warning* uit het System-log.
 2. Bij een klik op de knop gaan die gegevens als context naar Ollama (`localhost:11434`), met de opdracht
    om in het Nederlands een Systeem Status, Diagnose en Stappenplan te schrijven.
 3. Geeft Ollama geen bruikbaar antwoord, dan bouwt `bouw_lokaal_rapport()` zelf een rapport uit de
@@ -119,7 +119,7 @@ toevoegen is één blok bovenin `Diagnose.py`:
   zeker bij dingen als services, DCOM-rechten of schijfcontrole.
 - Het programma **wijzigt zelf niets** aan je systeem; het geeft alleen advies. De enige actie die het zelf
   uitvoert is de Ollama-installatie, en alleen nadat je daar op de knop voor hebt geklikt.
-- Alleen de 5 meest recente fouten uit het System-log worden bekeken, niet de Application- of Security-logs.
+- Er worden maximaal 5 recente fouten of waarschuwingen uit het System-log bekeken, niet uit het Application- of Security-log.
 
 ## Bestanden
 
